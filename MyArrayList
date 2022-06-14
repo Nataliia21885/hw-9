@@ -1,0 +1,61 @@
+public class MyArrayList implements MyListInterface {
+    private int size;
+    private Object[] arr;
+    private static final int DEFAULT_CAPACITY = 10;
+
+
+    public MyArrayList() {
+
+        this(DEFAULT_CAPACITY);
+    }
+
+    public MyArrayList(int initCapacity) {
+        if (initCapacity <= 0) {
+            throw new IllegalArgumentException();
+        }
+        arr = new Object[initCapacity];
+    }
+
+    @Override
+    public void add(Object value) {
+        if (arr.length == size) {
+            Object[] newArr = new Object[arr.length * 2];
+            System.arraycopy(arr, 0, newArr, 0, size);
+            arr = newArr;
+        }
+        arr[size++] = value;
+    }
+
+    @Override
+    public Object remove(int index) {
+        int sizeForArr = size - 1;
+        if (index > sizeForArr) {
+            throw new IndexOutOfBoundsException("Large Index for Array List");
+        }
+        Object removedElement = (Object) arr[index];
+        System.arraycopy(arr, index + 1, arr, index, size - index - 1);
+        size--;
+        return removedElement;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            arr[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public Object get(int index) {
+        if (index > size - 1) {
+            throw new IndexOutOfBoundsException("Large Index for Array List");
+        }
+        return arr[index];
+    }
+}
