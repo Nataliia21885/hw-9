@@ -1,0 +1,14 @@
+public interface StackInterface {
+
+    void push(Object value);
+
+    Object remove(int index);
+
+    void clear();
+
+    int size();
+
+    Object peek();
+
+    Object pop();
+}
