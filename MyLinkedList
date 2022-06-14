@@ -1,0 +1,75 @@
+import java.util.Objects;
+
+public class MyLinkedList implements MyListInterface {
+    static class Node {
+        Object element;
+        Node next;
+
+    public Node(Object element) {
+        this.element = element;
+        }
+    }
+
+    private int size;
+    private Node first;
+    private Node last;
+
+    @Override
+    public void add(Object value) {
+        Node newNode = new Node(value);
+        if (first == null) {
+            first = last = newNode;
+        } else {
+            last.next = newNode;
+            last = newNode;
+        }
+        size++;
+    }
+
+    private Node getNodebyIndex(int index) {
+        Node current = first;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    @Override
+    public Object remove(int index) {
+        Objects.checkIndex(index, size);
+        Object removeElement = new Object();
+        if (index == 0) {
+            removeElement = first.element;
+            first = first.next;
+            if (first == null) {
+                last = null;
+            }
+        } else {
+            Node previous = getNodebyIndex(index - 1);
+            removeElement = previous.next.element;
+            previous.next = previous.next.next;
+            if (index == size - 1) {
+                last = previous;
+            }
+        }
+        size--;
+        return removeElement;
+    }
+
+    @Override
+    public void clear() {
+        first = last = null;
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public Object get(int index) {
+        Objects.checkIndex(index, size + 1);
+        return getNodebyIndex(index).element;
+    }
+}
