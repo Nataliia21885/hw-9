@@ -1,0 +1,68 @@
+import java.util.*;
+
+public class MyQueue implements QueueInterface {
+    private int size;
+    private Object[] arrayQueue;
+    private static final int DEFAULT_CAPACITY = 10;
+
+    public MyQueue() {
+        arrayQueue = new Object[DEFAULT_CAPACITY];
+    }
+
+    public MyQueue(int initCapacity) {
+        arrayQueue = new Object[initCapacity];
+    }
+
+    @Override
+    public void add(Object value) {
+        if (arrayQueue.length == size) {
+            Object[] newArr = new Object[arrayQueue.length * 2];
+            System.arraycopy(arrayQueue, 0, newArr, 0, size);
+            arrayQueue = newArr;
+        }
+        arrayQueue[size++] = value;
+    }
+
+    @Override
+    public Object remove(int index) {
+        if (arrayQueue.length == 0) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        Object[] newArrQ = new Object[arrayQueue.length - 1];
+        Object removed = arrayQueue[index];
+        System.arraycopy(arrayQueue, index + 1, newArrQ, index, size - index - 1);
+        size--;
+        return arrayQueue[0];
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            arrayQueue[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public Object peek() {
+        if(arrayQueue.length != 0) {
+            return arrayQueue[0];
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Object poll() {
+        Object rem = arrayQueue[0];
+        remove(0);
+        return rem;
+    }
+}
+
+
