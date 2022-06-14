@@ -1,0 +1,72 @@
+import java.util.EmptyStackException;
+
+public class MyStack implements StackInterface {
+    private int size;
+    private Object[] arrayStack;
+    private static final int DEFAULT_CAPACITY = 5;
+    private int top;   //індекс останнього елементу
+
+    public MyStack() {
+        arrayStack = new Object[DEFAULT_CAPACITY];
+        top = -1;
+    }
+
+    public MyStack(int initCapacity) {
+        arrayStack = new Object[initCapacity];
+    }
+
+    @Override
+    public void push(Object value) {
+        if (arrayStack.length == size) {
+            Object[] newArr = new Object[arrayStack.length * 2];
+            System.arraycopy(arrayStack, 0, newArr, 0, size);
+            arrayStack = newArr;
+        }
+        arrayStack[++top] = value;
+        size++;
+    }
+
+    @Override
+    public Object remove(int index) {
+        if (arrayStack.length == 0) {
+            throw new EmptyStackException();
+        }
+        Object[] newArrS = new Object[arrayStack.length - 1];
+        Object removed = arrayStack[index];
+        System.arraycopy(arrayStack, index + 1, newArrS, index, size - index - 1);
+        size--;
+        return arrayStack[0];
+    }
+
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            arrayStack[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public Object peek() {
+        if (arrayStack.length == 0) {
+            throw new EmptyStackException();
+        } else {
+            return arrayStack[top];
+        }
+    }
+
+    @Override
+    public Object pop() {
+        if (arrayStack.length == 0) {
+            throw new EmptyStackException();
+        } else {
+            return arrayStack[top--];
+        }
+    }
+}
